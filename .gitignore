@@ -1,0 +1,10 @@
+detectingAndReactingToFailure/web1
+detectingAndReactingToFailure/web2
+detectingAndReactingToFailure/docker-compose.yaml
+directingTraffic/web1
+directingTraffic/web2
+directingTraffic/docker-compose.yaml
+loadBancingAlgorithms/web1
+loadBancingAlgorithms/web2
+loadBancingAlgorithms/docker-compose.yaml
+start
