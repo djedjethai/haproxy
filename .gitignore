@@ -8,3 +8,5 @@ loadBancingAlgorithms/web1
 loadBancingAlgorithms/web2
 loadBancingAlgorithms/docker-compose.yaml
 start
+serverPersistence/web1
+serverPersistence/web2
