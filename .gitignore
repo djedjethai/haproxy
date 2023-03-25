@@ -10,3 +10,7 @@ loadBancingAlgorithms/docker-compose.yaml
 start
 serverPersistence/web1
 serverPersistence/web2
+logging/web1
+logging/web2
+logging/db_data
+logging/docker-compose.yaml
