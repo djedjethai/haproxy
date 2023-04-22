@@ -1,0 +1,20 @@
+{
+	"CN": "Generation",
+	"key": {
+		"algo": "rsa",
+		"size": 2048
+	},
+	"names": [
+		{
+			"C": "US",
+			"ST": "California",
+			"L": "San Francisco",
+			"O": "Generation project",
+			"OU": "Certificate Authority",
+			"UID": "root"
+		}
+	],
+	"ca":{
+		"expiry": "8760h"
+	}
+}

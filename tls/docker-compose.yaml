@@ -1,0 +1,77 @@
+version: '3'
+
+services:
+  haproxy:
+    image: haproxy:2.7.6-alpine
+      # image: haproxy:1.8.14-alpine
+    #image: haproxy
+    ports:
+      - 80:80
+      - 81:81
+      - 82:82
+      - 83:83
+      - 84:84
+      - 85:85
+      - 1936:1936
+      - 33306:33306 # for mysql
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      - ./haproxy_logs:/var/log/
+    deploy:
+      mode: global
+        #logging:
+        #  driver: "syslog"
+        #  options:
+        #    syslog-address: "udp://logs5.papertrailapp.com:32187"
+        #    tag: "{{.Name}}/{{.ID}}"
+
+  web1:
+    image: nginx
+    volumes:
+      - ./web1/nginxlogs:/var/log/nginx/
+      - ./web1/nginx.conf:/etc/nginx/nginx.conf
+      - ./web1/html:/usr/share/nginx/html
+      - ./web1/static:/usr/share/nginx/static/
+        #logging:
+        #  driver: "syslog"
+        #  options:
+        #    syslog-address: "udp://logs5.papertrailapp.com:32187"
+        #    tag: "{{.Name}}/{{.ID}}"
+
+  web2:
+    image: nginx
+    volumes:
+      - ./web2/nginxlogs:/var/log/nginx/
+      - ./web2/nginx.conf:/etc/nginx/nginx.conf
+      - ./web2/html:/usr/share/nginx/html
+      - ./web2/static:/usr/share/nginx/static/
+        #logging:
+        #  driver: "syslog"
+        #  options:
+        #    syslog-address: "udp://logs5.papertrailapp.com:32187"
+        #    tag: "{{.Name}}/{{.ID}}"
+
+  mysql:
+    # image: mysql:5.6.40
+    image: mariadb:10.6
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: test
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - ./db_data:/var/lib/mysql
+      - ./mariadb_conf/my.cnf:/etc/mysql/my.cnf
+      - ./certifs:/etc/mysql/tls
+        #- ./certifgpt:/etc/mysql/tls
+    ports:
+      - "3306:3306"
+        #logging:
+        #  driver: "syslog"
+        #  options:
+        #    syslog-address: "udp://logs5.papertrailapp.com:32187"
+        #    tag: "{{.Name}}/{{.ID}}"
+
+
+
+         

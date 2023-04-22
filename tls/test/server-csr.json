@@ -1,0 +1,23 @@
+{
+	"CN": "mariadb-server",
+	"hosts": [
+		"*",
+		"mariadb-server",
+		"localhost",
+		"127.0.0.1"
+	],
+	"key": {
+		"algo": "rsa",
+		"size": 2048
+	},
+	"names": [
+		{
+			"C": "US",
+			"ST": "California",
+			"L": "San Francisco",
+			"O": "Generation project",
+			"OU": "Certificate Authority",
+			"UID": "root"
+		}
+	]
+}
