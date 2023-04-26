@@ -7,6 +7,7 @@ services:
     #image: haproxy
     ports:
       - 80:80
+      - 443:443
       - 81:81
       - 82:82
       - 83:83
@@ -17,6 +18,7 @@ services:
     volumes:
       - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
       - ./haproxy_logs:/var/log/
+      - ./certifs/server-ha.pem:/etc/ssl/certs/server.pem
     deploy:
       mode: global
         #logging:
@@ -24,6 +26,15 @@ services:
         #  options:
         #    syslog-address: "udp://logs5.papertrailapp.com:32187"
         #    tag: "{{.Name}}/{{.ID}}"
+
+  go:
+    build:
+      context: ./goClientServer
+    user: root
+    volumes:
+      - ./goClientServer/certifs:/etc/tls
+    ports:
+      - 8080:443
 
   web1:
     image: nginx
@@ -62,7 +73,7 @@ services:
     volumes:
       - ./db_data:/var/lib/mysql
       - ./mariadb_conf/my.cnf:/etc/mysql/my.cnf
-      - ./certifs:/etc/mysql/tls
+        #- ./certifs:/etc/mysql/tls
         #- ./certifgpt:/etc/mysql/tls
     ports:
       - "3306:3306"

@@ -14,3 +14,5 @@ logging/web1
 logging/web2
 logging/db_data
 logging/docker-compose.yaml
+
+tls/db_data
