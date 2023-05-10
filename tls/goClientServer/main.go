@@ -17,8 +17,23 @@ func main() {
 		// producer(props, topic)
 		client := setClient()
 
+		// // Create an HTTP client with a custom transport to allow connections to localhost with a self-signed certificate
+		// tr := &http.Transport{
+		// 	// if I add this commented line the server will
+		// 	// not validate the certif against the CA
+		// 	// TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		// 	TLSClientConfig: &tls.Config{},
+		// }
+		// client := &http.Client{Transport: tr}
+		// client := &http.Client{}
+
+		// check if client have certificates
+		hasCertificates := hasClientCertificates(client)
+		fmt.Println("Client has certificates:", hasCertificates)
+
 		// make a GET request to the server using HTTPS
 		resp, err := client.Get("https://localhost:443")
+		// resp, err := client.Get("http://localhost:80")
 		if err != nil {
 			panic(err)
 		}
@@ -38,7 +53,7 @@ func main() {
 			fmt.Fprint(w, "Hello, World!")
 		})
 
-		// if err := http.ListenAndServe(":80", nil); err != nil {
+		// err := http.ListenAndServe(":80", nil)
 		err := http.ListenAndServeTLS(":443", "/etc/tls/server.pem", "/etc/tls/server-key.pem", nil)
 		// err := http.ListenAndServeTLS(":443", "./certifs/server.pem", "./certifs/server-key.pem", nil)
 		if err != nil {
@@ -76,4 +91,16 @@ func setClient() *http.Client {
 	}
 
 	return client
+}
+
+// Function to check if the HTTP client has certificates
+func hasClientCertificates(client *http.Client) bool {
+	switch transport := client.Transport.(type) {
+	case *http.Transport:
+		tlsConfig := transport.TLSClientConfig
+		if tlsConfig != nil && len(tlsConfig.Certificates) > 0 {
+			return true
+		}
+	}
+	return false
 }
